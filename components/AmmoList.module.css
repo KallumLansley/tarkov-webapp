@@ -1,0 +1,145 @@
+/* AmmoList.module.css */
+.caliber-container {
+  margin-bottom: 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.caliber-header {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.caliber-header:hover {
+  background-color: #e8e8e8;
+}
+
+.caliber-image {
+  width: 120px;
+  margin-left: 1rem;
+  border-radius: 4px;
+}
+
+.toggle-indicator {
+  margin-left: auto;
+  font-size: 1.2rem;
+}
+
+.ammo-container {
+  padding: 1rem;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.filter-controls button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+}
+
+.filter-controls button.active-filter {
+  background: #4a4a4a;
+  color: white;
+}
+
+.ammo-list {
+  list-style: none;
+  padding: 0;
+}
+
+.ammo-item {
+  margin-bottom: 0.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.ammo-name {
+  display: flex;
+  padding: 0.5rem 1rem;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.basic-stats {
+  padding: 1rem;
+  background-color: #ffffff;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.stat-box {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.stat-value {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.price-section {
+  margin-top: 1rem;
+}
+
+.price-list {
+  list-style: none;
+  padding: 0;
+}
+
+.price-item {
+  padding: 0.5rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.full-stats-toggle {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.full-stats {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.stats-grid-full {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
