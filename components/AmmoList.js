@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_AMMO } from "../services/api/queries";
-import styles from "./AmmoList.module.css";  // Import the CSS module
+import { useComparison } from "../context/ComparisonContext";
+import styles from "./AmmoList.module.css";
 
 // Mapping API caliber names to user-friendly names
 const caliberMapping = {
@@ -30,12 +31,14 @@ const caliberMapping = {
   "Caliber9x33R": "357 Magnum", 
 };
 
-const AmmoList = ({ caliber }) => {
-  // Your existing state hooks
+const AmmoList = ({ caliber, searchTerm }) => {
   const [showAmmo, setShowAmmo] = useState(false);
   const [expandedAmmo, setExpandedAmmo] = useState(null);
   const [fullStatsAmmo, setFullStatsAmmo] = useState(null);
   const [selectedFilter, setSelectedFilter] = useState(null);
+  
+  // Get comparison context
+  const { addToComparison, comparisonList } = useComparison();
 
   // Function to toggle basic stats
   const toggleAmmoStats = (ammoId) => {
@@ -46,6 +49,19 @@ const AmmoList = ({ caliber }) => {
   // Function to toggle full details
   const toggleFullStats = (ammoId) => {
     setFullStatsAmmo(fullStatsAmmo === ammoId ? null : ammoId);
+  };
+
+  // Updated color coding functions with fixed thresholds
+  const getDamageClass = (damage) => {
+    if (damage >= 51) return styles.highDamage;
+    if (damage >= 31) return styles.mediumDamage;
+    return styles.lowDamage;
+  };
+
+  const getPenetrationClass = (penetration) => {
+    if (penetration >= 30) return styles.highPenetration;
+    if (penetration >= 21) return styles.mediumPenetration;
+    return styles.lowPenetration;
   };
 
   // Fetch all ammo
@@ -62,8 +78,25 @@ const AmmoList = ({ caliber }) => {
       (caliberMapping[ammo.properties.caliber] === caliber || ammo.properties.caliber === caliber)
   );
 
+  // Apply search filter if searchTerm is provided
+  const searchFilteredAmmo = searchTerm 
+    ? filteredAmmo.filter(ammo => 
+        ammo.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : filteredAmmo;
+
+  // Auto-expand if search matches
+  if (searchTerm && searchFilteredAmmo.length > 0 && !showAmmo) {
+    setTimeout(() => setShowAmmo(true), 0);
+  }
+
+  // If search is active but no matches in this caliber, don't show this caliber
+  if (searchTerm && searchFilteredAmmo.length === 0) {
+    return null;
+  }
+
   // Sort ammo based on selected filter
-  const sortedAmmo = [...filteredAmmo].sort((a, b) => {
+  const sortedAmmo = [...searchFilteredAmmo].sort((a, b) => {
     if (!selectedFilter) return 0;
     
     if (selectedFilter === 'damage') {
@@ -75,35 +108,35 @@ const AmmoList = ({ caliber }) => {
   });
 
   return (
-    <div className={styles["caliber-container"]}>
-      <div className={styles["caliber-header"]} onClick={() => setShowAmmo(!showAmmo)}>
+    <div className={styles.caliberContainer}>
+      <div className={styles.caliberHeader} onClick={() => setShowAmmo(!showAmmo)}>
         <h2>{caliber}</h2>
         <img
           src={`/images/${caliber}.png`}
           alt={caliber}
-          className={styles["caliber-image"]}
+          className={styles.caliberImage}
         />
-        <span className={styles["toggle-indicator"]}>{showAmmo ? '▼' : '►'}</span>
+        <span className={styles.toggleIndicator}>{showAmmo ? '▼' : '►'}</span>
       </div>
 
       {showAmmo && (
-        <div className={styles["ammo-container"]}>
-          <div className={styles["filter-controls"]}>
+        <div className={styles.ammoContainer}>
+          <div className={styles.filterControls}>
             <span>Sort by: </span>
             <button 
-              className={selectedFilter === 'damage' ? styles["active-filter"] : ''}
+              className={selectedFilter === 'damage' ? styles.activeFilter : ''}
               onClick={() => setSelectedFilter('damage')}
             >
               Damage
             </button>
             <button 
-              className={selectedFilter === 'penetration' ? styles["active-filter"] : ''}
+              className={selectedFilter === 'penetration' ? styles.activeFilter : ''}
               onClick={() => setSelectedFilter('penetration')}
             >
               Penetration
             </button>
             <button 
-              className={!selectedFilter ? styles["active-filter"] : ''}
+              className={!selectedFilter ? styles.activeFilter : ''}
               onClick={() => setSelectedFilter(null)}
             >
               Default
@@ -111,35 +144,39 @@ const AmmoList = ({ caliber }) => {
           </div>
           
           {sortedAmmo.length > 0 ? (
-            <ul className={styles["ammo-list"]}>
+            <ul className={styles.ammoList}>
               {sortedAmmo.map((ammo) => (
-                <li key={ammo.id} className={styles["ammo-item"]}>
-                  <div className={styles["ammo-name"]} onClick={() => toggleAmmoStats(ammo.id)}>
+                <li key={ammo.id} className={styles.ammoItem}>
+                  <div className={styles.ammoName} onClick={() => toggleAmmoStats(ammo.id)}>
                     {ammo.name}
-                    <span className={styles["toggle-indicator"]}>{expandedAmmo === ammo.id ? '▼' : '►'}</span>
+                    <span className={styles.toggleIndicator}>{expandedAmmo === ammo.id ? '▼' : '►'}</span>
                   </div>
 
                   {/* Basic Stats Section */}
                   {expandedAmmo === ammo.id && (
-                    <div className={styles["basic-stats"]}>
-                      <div className={styles["stats-grid"]}>
-                        <div className={styles["stat-box"]}>
-                          <span className={styles["stat-label"]}>Damage</span>
-                          <span className={styles["stat-value"]}>{ammo.properties.damage}</span>
+                    <div className={styles.basicStats}>
+                      <div className={styles.statsGrid}>
+                        <div className={styles.statBox}>
+                          <span className={styles.statLabel}>Damage</span>
+                          <span className={`${styles.statValue} ${getDamageClass(ammo.properties.damage)}`}>
+                            {ammo.properties.damage}
+                          </span>
                         </div>
-                        <div className={styles["stat-box"]}>
-                          <span className={styles["stat-label"]}>Penetration</span>
-                          <span className={styles["stat-value"]}>{ammo.properties.penetrationPower}</span>
+                        <div className={styles.statBox}>
+                          <span className={styles.statLabel}>Penetration</span>
+                          <span className={`${styles.statValue} ${getPenetrationClass(ammo.properties.penetrationPower)}`}>
+                            {ammo.properties.penetrationPower}
+                          </span>
                         </div>
                       </div>
                       
                       {/* Trader Prices Section */}
-                      <div className={styles["price-section"]}>
+                      <div className={styles.priceSection}>
                         <h4>Available From:</h4>
                         {ammo.buyFor && ammo.buyFor.length > 0 ? (
-                          <ul className={styles["price-list"]}>
+                          <ul className={styles.priceList}>
                             {ammo.buyFor.map((price, index) => (
-                              <li key={index} className={styles["price-item"]}>
+                              <li key={index} className={styles.priceItem}>
                                 {price.vendor?.name || price.source}: {price.price} {price.currency}
                               </li>
                             ))}
@@ -149,65 +186,79 @@ const AmmoList = ({ caliber }) => {
                         )}
                       </div>
                       
-                      <button 
-                        className={styles["full-stats-toggle"]}
-                        onClick={() => toggleFullStats(ammo.id)}
-                      >
-                        {fullStatsAmmo === ammo.id ? "Hide Full Stats" : "View Full Stats"}
-                      </button>
+                      <div className={styles.actions}>
+                        <button 
+                          className={styles.fullStatsToggle}
+                          onClick={() => toggleFullStats(ammo.id)}
+                        >
+                          {fullStatsAmmo === ammo.id ? "Hide Full Stats" : "View Full Stats"}
+                        </button>
+                        
+                        <button 
+                          className={styles.compareButton}
+                          onClick={() => addToComparison(ammo)}
+                          disabled={comparisonList.find(item => item.id === ammo.id) || comparisonList.length >= 4}
+                        >
+                          {comparisonList.find(item => item.id === ammo.id) 
+                            ? "Added to Compare" 
+                            : "Add to Compare"}
+                        </button>
+                      </div>
 
                       {/* Full Stats Section */}
                       {fullStatsAmmo === ammo.id && (
-                        <div className={styles["full-stats"]}>
+                        <div className={styles.fullStats}>
                           <h4>Complete Ammunition Details</h4>
-                          <div className={styles["stats-grid-full"]}>
-                            <div className={styles["stat-box"]}>
-                              <span className={styles["stat-label"]}>Tracer</span>
-                              <span className={styles["stat-value"]}>{ammo.properties.tracer ? "Yes" : "No"}</span>
+                          <div className={styles.statsGridFull}>
+                            <div className={styles.statBox}>
+                              <span className={styles.statLabel}>Tracer</span>
+                              <span className={styles.statValue}>{ammo.properties.tracer ? "Yes" : "No"}</span>
                             </div>
-                            <div className={styles["stat-box"]}>
-                              <span className={styles["stat-label"]}>Tracer Color</span>
-                              <span className={styles["stat-value"]}>{ammo.properties.tracerColor || "N/A"}</span>
+                            <div className={styles.statBox}>
+                              <span className={styles.statLabel}>Tracer Color</span>
+                              <span className={styles.statValue}>{ammo.properties.tracerColor || "N/A"}</span>
                             </div>
-                            <div className={styles["stat-box"]}>
-                              <span className={styles["stat-label"]}>Damage</span>
-                              <span className={styles["stat-value"]}>{ammo.properties.damage}</span>
+                            <div className={styles.statBox}>
+                              <span className={styles.statLabel}>Damage</span>
+                              <span className={`${styles.statValue} ${getDamageClass(ammo.properties.damage)}`}>
+                                {ammo.properties.damage}
+                              </span>
                             </div>
-                            <div className={styles["stat-box"]}>
-                              <span className={styles["stat-label"]}>Armor Damage</span>
-                              <span className={styles["stat-value"]}>{ammo.properties.armorDamage}</span>
+                            <div className={styles.statBox}>
+                              <span className={styles.statLabel}>Armor Damage</span>
+                              <span className={styles.statValue}>{ammo.properties.armorDamage}</span>
                             </div>
-                            <div className={styles["stat-box"]}>
-                              <span className={styles["stat-label"]}>Fragmentation</span>
-                              <span className={styles["stat-value"]}>{ammo.properties.fragmentationChance}</span>
+                            <div className={styles.statBox}>
+                              <span className={styles.statLabel}>Fragmentation</span>
+                              <span className={styles.statValue}>{ammo.properties.fragmentationChance}</span>
                             </div>
-                            <div className={styles["stat-box"]}>
-                              <span className={styles["stat-label"]}>Ricochet Chance</span>
-                              <span className={styles["stat-value"]}>{ammo.properties.ricochetChance}</span>
+                            <div className={styles.statBox}>
+                              <span className={styles.statLabel}>Ricochet Chance</span>
+                              <span className={styles.statValue}>{ammo.properties.ricochetChance}</span>
                             </div>
-                            <div className={styles["stat-box"]}>
-                              <span className={styles["stat-label"]}>Penetration Chance</span>
-                              <span className={styles["stat-value"]}>{ammo.properties.penetrationChance}</span>
+                            <div className={styles.statBox}>
+                              <span className={styles.statLabel}>Penetration Chance</span>
+                              <span className={styles.statValue}>{ammo.properties.penetrationChance}</span>
                             </div>
-                            <div className={styles["stat-box"]}>
-                              <span className={styles["stat-label"]}>Accuracy Modifier</span>
-                              <span className={styles["stat-value"]}>{ammo.properties.accuracyModifier || "N/A"}</span>
+                            <div className={styles.statBox}>
+                              <span className={styles.statLabel}>Accuracy Modifier</span>
+                              <span className={styles.statValue}>{ammo.properties.accuracyModifier || "N/A"}</span>
                             </div>
-                            <div className={styles["stat-box"]}>
-                              <span className={styles["stat-label"]}>Recoil Modifier</span>
-                              <span className={styles["stat-value"]}>{ammo.properties.recoilModifier || "N/A"}</span>
+                            <div className={styles.statBox}>
+                              <span className={styles.statLabel}>Recoil Modifier</span>
+                              <span className={styles.statValue}>{ammo.properties.recoilModifier || "N/A"}</span>
                             </div>
-                            <div className={styles["stat-box"]}>
-                              <span className={styles["stat-label"]}>Initial Speed</span>
-                              <span className={styles["stat-value"]}>{ammo.properties.initialSpeed || "N/A"}</span>
+                            <div className={styles.statBox}>
+                              <span className={styles.statLabel}>Initial Speed</span>
+                              <span className={styles.statValue}>{ammo.properties.initialSpeed || "N/A"}</span>
                             </div>
-                            <div className={styles["stat-box"]}>
-                              <span className={styles["stat-label"]}>Light Bleed</span>
-                              <span className={styles["stat-value"]}>{ammo.properties.lightBleedModifier}</span>
+                            <div className={styles.statBox}>
+                              <span className={styles.statLabel}>Light Bleed</span>
+                              <span className={styles.statValue}>{ammo.properties.lightBleedModifier}</span>
                             </div>
-                            <div className={styles["stat-box"]}>
-                              <span className={styles["stat-label"]}>Heavy Bleed</span>
-                              <span className={styles["stat-value"]}>{ammo.properties.heavyBleedModifier}</span>
+                            <div className={styles.statBox}>
+                              <span className={styles.statLabel}>Heavy Bleed</span>
+                              <span className={styles.statValue}>{ammo.properties.heavyBleedModifier}</span>
                             </div>
                           </div>
                         </div>

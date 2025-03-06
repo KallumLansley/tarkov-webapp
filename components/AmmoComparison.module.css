@@ -1,0 +1,160 @@
+.comparisonContainer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(20, 20, 30, 0.95);
+  color: white;
+  padding: 1.5rem;
+  z-index: 1000;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  border-top: 2px solid rgba(52, 152, 219, 0.5);
+  transition: transform 0.3s, opacity 0.3s;
+  transform: translateY(0);
+}
+
+.comparisonHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.comparisonHeader h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #3498db;
+}
+
+.clearButton {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.clearButton:hover {
+  background-color: #c0392b;
+}
+
+.comparisonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.comparisonCard {
+  background-color: rgba(30, 30, 40, 0.9);
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 1.25rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.comparisonCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.comparisonCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.comparisonCardHeader h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: white;
+}
+
+.removeButton {
+  background: none;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: color 0.2s;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.removeButton:hover {
+  color: #ff6b6b;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.comparisonStats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.statRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.statLabel {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.statValue {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.statHigh {
+  color: #2ecc71;
+  text-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
+}
+
+.statMedium {
+  color: #f39c12;
+  text-shadow: 0 0 10px rgba(243, 156, 18, 0.3);
+}
+
+.statLow {
+  color: #e74c3c;
+  text-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
+}
+
+.priceInfo {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.9rem;
+}
+
+.priceLabel {
+  color: #aaa;
+  margin-bottom: 0.5rem;
+}
+
+.priceValue {
+  color: #3498db;
+  font-color: #3498db;
+  font-weight: 500;
+}

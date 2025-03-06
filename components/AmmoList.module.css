@@ -1,144 +1,297 @@
-/* AmmoList.module.css */
-.caliber-container {
+.caliberContainer {
   margin-bottom: 1.5rem;
-  border: 1px solid #e0e0e0;
+  border: 1px solid rgba(224, 224, 224, 0.1);
   border-radius: 8px;
   overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.95);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.caliber-header {
+.caliberContainer:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.caliberHeader {
   display: flex;
   align-items: center;
   padding: 1rem;
-  background-color: #f5f5f5;
+  background: linear-gradient(to right, #f8f9fa, #e9ecef);
   cursor: pointer;
+  transition: background-color 0.2s;
+  color: #333;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.caliberHeader:hover {
+  background: linear-gradient(to right, #e9ecef, #dee2e6);
+}
+
+.caliberHeader h2 {
+  color: #333;
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.caliberImage {
+  width: 180px;
+  height: 90px;
+  margin-left: 1rem;
+  border-radius: 4px;
+  object-fit: contain;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  background-color: #fff;
+}
+
+.caliberHeader:hover .caliberImage {
+  transform: scale(1.05);
+}
+
+.toggleIndicator {
+  margin-left: auto;
+  font-size: 1.2rem;
+  color: #555;
+  transition: transform 0.3s;
+}
+
+.caliberHeader:hover .toggleIndicator {
+  transform: translateX(3px);
+}
+
+.ammoContainer {
+  padding: 1.5rem;
+  background-color: white;
+  color: #333;
+}
+
+.filterControls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+  color: #333;
+  background-color: rgba(0, 0, 0, 0.02);
+  padding: 0.75rem;
+  border-radius: 6px;
+}
+
+.filterControls span {
+  font-weight: 500;
+  color: #555;
+  margin-right: 0.5rem;
+}
+
+.filterControls button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.filterControls button:hover {
+  border-color: #aaa;
+  background-color: #f8f9fa;
+}
+
+.filterControls button.activeFilter {
+  background: #3498db;
+  color: white;
+  border-color: #2980b9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ammoList {
+  list-style: none;
+  padding: 0;
+  color: #333;
+}
+
+.ammoItem {
+  margin-bottom: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: white;
+  transition: all 0.2s;
+}
+
+.ammoItem:hover {
+  border-color: #bbb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.ammoName {
+  display: flex;
+  padding: 0.75rem 1rem;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  font-weight: 500;
+  color: #333;
   transition: background-color 0.2s;
 }
 
-.caliber-header:hover {
-  background-color: #e8e8e8;
+.ammoName:hover {
+  background-color: #f0f0f0;
 }
 
-.caliber-image {
-  width: 120px;
-  margin-left: 1rem;
-  border-radius: 4px;
+.basicStats {
+  padding: 1.25rem;
+  background-color: white;
+  color: #333;
+  border-top: 1px solid #eee;
 }
 
-.toggle-indicator {
-  margin-left: auto;
-  font-size: 1.2rem;
-}
-
-.ammo-container {
-  padding: 1rem;
-}
-
-.filter-controls {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  align-items: center;
-}
-
-.filter-controls button {
-  padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background: white;
-  cursor: pointer;
-}
-
-.filter-controls button.active-filter {
-  background: #4a4a4a;
-  color: white;
-}
-
-.ammo-list {
-  list-style: none;
-  padding: 0;
-}
-
-.ammo-item {
-  margin-bottom: 0.5rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.ammo-name {
-  display: flex;
-  padding: 0.5rem 1rem;
-  background-color: #f9f9f9;
-  cursor: pointer;
-  font-weight: 500;
-}
-
-.basic-stats {
-  padding: 1rem;
-  background-color: #ffffff;
-}
-
-.stats-grid {
+.statsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-.stat-box {
+.statBox {
   display: flex;
   flex-direction: column;
-  padding: 0.5rem;
+  padding: 0.75rem;
   border: 1px solid #e0e0e0;
-  border-radius: 4px;
+  border-radius: 6px;
   text-align: center;
+  background-color: #f9f9f9;
+  transition: transform 0.2s;
 }
 
-.stat-label {
-  font-size: 0.8rem;
+.statBox:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.statLabel {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.statValue {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Color coding for damage and penetration */
+.highDamage, .highPenetration {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.mediumDamage, .mediumPenetration {
+  color: #f39c12;
+  font-weight: bold;
+}
+
+.lowDamage, .lowPenetration {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.priceSection {
+  margin-top: 1.5rem;
+  color: #333;
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.priceSection h4 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.priceList {
+  list-style: none;
+  padding: 0;
+  color: #333;
+}
+
+.priceItem {
+  padding: 0.6rem;
+  border-bottom: 1px solid #eee;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.priceItem:last-child {
+  border-bottom: none;
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.fullStatsToggle, .compareButton {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.fullStatsToggle {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.fullStatsToggle:hover {
+  background: #e0e0e0;
+}
+
+.compareButton {
+  background: #2ecc71;
+  color: white;
+}
+
+.compareButton:hover {
+  background: #27ae60;
+}
+
+.compareButton:disabled {
+  background: #ccc;
+  cursor: not-allowed;
   color: #666;
 }
 
-.stat-value {
-  font-size: 1.2rem;
-  font-weight: 500;
-}
-
-.price-section {
-  margin-top: 1rem;
-}
-
-.price-list {
-  list-style: none;
-  padding: 0;
-}
-
-.price-item {
-  padding: 0.5rem;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.full-stats-toggle {
-  display: block;
-  width: 100%;
-  padding: 0.5rem;
-  margin-top: 1rem;
-  background: #f0f0f0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.full-stats {
-  margin-top: 1rem;
-  padding: 1rem;
+.fullStats {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
   border: 1px solid #e0e0e0;
-  border-radius: 4px;
+  border-radius: 8px;
   background-color: #f9f9f9;
+  color: #333;
 }
 
-.stats-grid-full {
+.fullStats h4 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  text-align: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.statsGridFull {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem;
