@@ -296,3 +296,238 @@
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem;
 }
+
+/* Armor Effectiveness section */
+.armorEffectiveness {
+  margin-top: 1.5rem;
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.armorEffectiveness h4 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.armorGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5rem;
+}
+
+.armorCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.armorCell:hover {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.selectedArmorClass {
+  border-color: #3498db;
+  background-color: rgba(52, 152, 219, 0.1);
+}
+
+.armorLabel {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.highEffectiveness {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.mediumEffectiveness {
+  color: #f39c12;
+  font-weight: bold;
+}
+
+.lowEffectiveness {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+/* Ballistics section */
+.ballisticsSection {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.ballisticsSection h4 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.ballisticsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.ballisticsItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background-color: white;
+}
+
+.ballisticsLabel {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.ballisticsValue {
+  font-weight: 600;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+/* Random target highlighting */
+.randomTarget {
+  animation: highlight 2s ease-in-out;
+  box-shadow: 0 0 20px rgba(52, 152, 219, 0.7);
+}
+
+@keyframes highlight {
+  0% { transform: translateY(0); box-shadow: 0 0 0 rgba(52, 152, 219, 0); }
+  25% { transform: translateY(-10px); box-shadow: 0 0 20px rgba(52, 152, 219, 0.7); }
+  50% { transform: translateY(0); box-shadow: 0 0 10px rgba(52, 152, 219, 0.5); }
+  75% { transform: translateY(-5px); box-shadow: 0 0 15px rgba(52, 152, 219, 0.6); }
+  100% { transform: translateY(0); box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); }
+}
+
+/* Armor Table Styles */
+.armorTable {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.armorTableHeader {
+  display: flex;
+  background-color: #f0f0f0;
+}
+
+.armorTableHeaderCell {
+  flex: 1;
+  padding: 0.5rem;
+  text-align: center;
+  font-weight: bold;
+  border-right: 1px solid #ddd;
+}
+
+.armorTableHeaderCell:last-child {
+  border-right: none;
+}
+
+.armorTableRow {
+  display: flex;
+}
+
+.armorTableCell {
+  flex: 1;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border-right: 1px solid #ddd;
+  font-size: 1.2rem;
+}
+
+.armorTableCell:last-child {
+  border-right: none;
+}
+
+/* Highlighted Ammo (for random selection) */
+.highlightedAmmo {
+  border: 2px solid #3498db !important;
+  box-shadow: 0 0 10px rgba(52, 152, 219, 0.5) !important;
+  background-color: rgba(52, 152, 219, 0.05) !important;
+}
+
+.armorEffectivenessHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.infoTooltip {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  background-color: #e0e0e0;
+  color: #555;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: help;
+}
+
+.tooltipContent {
+  display: none;
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 4px;
+  width: 220px;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.infoTooltip:hover .tooltipContent {
+  display: block;
+}
+
+.greenDot, .yellowDot, .redDot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.greenDot {
+  background-color: #00ff00;
+}
+
+.yellowDot {
+  background-color: #ffcc00;
+}
+
+.redDot {
+  background-color: #ff0000;
+}

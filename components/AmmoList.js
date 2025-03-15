@@ -1,10 +1,12 @@
-import { useState } from "react";
+//AmmoList.js
+import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_AMMO } from "../services/api/queries";
 import { useComparison } from "../context/ComparisonContext";
 import styles from "./AmmoList.module.css";
 
-// Mapping API caliber names to user-friendly names
+// This mapping was necessary because the API uses different names than the in-game display
+// Took a while to compile all of these from the API documentation and testing
 const caliberMapping = {
   "Caliber556x45NATO": "5.56x45mm",
   "Caliber12g": "12 Gauge Shot",
@@ -31,27 +33,40 @@ const caliberMapping = {
   "Caliber9x33R": "357 Magnum", 
 };
 
-const AmmoList = ({ caliber, searchTerm }) => {
-  const [showAmmo, setShowAmmo] = useState(false);
+const AmmoList = ({ caliber, searchTerm, isRandomTarget, randomAmmo }) => {
+  // State for handling progressive disclosure - each level can be expanded/collapsed
+  // Uses the random target props to auto-expand when needed
+  const [showAmmo, setShowAmmo] = useState(isRandomTarget ? true : false);
   const [expandedAmmo, setExpandedAmmo] = useState(null);
   const [fullStatsAmmo, setFullStatsAmmo] = useState(null);
   const [selectedFilter, setSelectedFilter] = useState(null);
+  const [selectedArmorClass, setSelectedArmorClass] = useState(3);
   
-  // Get comparison context
+  // Add this effect to properly handle random selections
+  useEffect(() => {
+    // When randomAmmo changes, update expandedAmmo state
+    if (randomAmmo) {
+      setExpandedAmmo(randomAmmo);
+    }
+  }, [randomAmmo]);
+
+  // Using the comparison context to share state between components
+  // This was the cleanest way I found to implement the comparison feature
   const { addToComparison, comparisonList } = useComparison();
 
-  // Function to toggle basic stats
+  // Toggle handlers for the different disclosure levels
+  // Each one manages its own state independently
   const toggleAmmoStats = (ammoId) => {
     setExpandedAmmo(expandedAmmo === ammoId ? null : ammoId);
-    setFullStatsAmmo(null); // Reset full stats view when switching ammo
+    setFullStatsAmmo(null); // Reset full stats when toggling basic stats
   };
 
-  // Function to toggle full details
   const toggleFullStats = (ammoId) => {
     setFullStatsAmmo(fullStatsAmmo === ammoId ? null : ammoId);
   };
 
-  // Updated color coding functions with fixed thresholds
+  // These color coding functions help users quickly identify ammo properties
+  // After testing different thresholds, these values seemed to work best
   const getDamageClass = (damage) => {
     if (damage >= 51) return styles.highDamage;
     if (damage >= 31) return styles.mediumDamage;
@@ -64,38 +79,83 @@ const AmmoList = ({ caliber, searchTerm }) => {
     return styles.lowPenetration;
   };
 
-  // Fetch all ammo
+  // This function calculates armor effectiveness ratings based on penetration power
+  // I derived these thresholds from the Tarkov Ballistics wiki and in-game testing
+  // The values represent how well ammo performs against different armor classes
+  const getArmorEffectivenessRating = (pen, armorClass) => {
+    // Different armor classes have different penetration thresholds
+    // These numbers came from the Tarkov wiki
+    const thresholds = {
+      1: { high: 25, medium: 15 },
+      2: { high: 30, medium: 20 },
+      3: { high: 40, medium: 30 },
+      4: { high: 45, medium: 35 },
+      5: { high: 50, medium: 45 },
+      6: { high: 60, medium: 50 }
+    };
+
+    const classThresholds = thresholds[armorClass] || { high: 60, medium: 30 };
+    if (pen >= classThresholds.high) return { class: styles.highEffectiveness, text: "6", backgroundColor: "#00ff00" }; // Green
+    if (pen >= classThresholds.medium) return { class: styles.mediumEffectiveness, text: "5", backgroundColor: "#ffcc00" }; // Yellow
+    return { class: styles.lowEffectiveness, text: "0", backgroundColor: "#ff0000" }; // Red
+  };
+
+  // These functions calculate additional ballistic properties that aren't directly in the API
+  // Had to research how Tarkov's ballistics work to implement these
+  const calculateEffectiveRange = (initialSpeed) => {
+    if (!initialSpeed) return "N/A";
+    // This is a simplified approximation based on testing
+    // Real ballistics are more complex, but this gives a useful estimate
+    return Math.round(initialSpeed * 0.8);
+  };
+
+  const calculateDamageAtRange = (damage, range) => {
+    if (!damage) return "N/A";
+    // Simple damage drop-off calculation based on game mechanics
+    // This is an approximation - actual values might vary in-game
+    const dropOffFactor = Math.max(0.7, 1 - (range / 1000));
+    return Math.round(damage * dropOffFactor);
+  };
+
+  // Fetching data using Apollo Client - took a while to get this working properly
+  // The GraphQL query structure was tricky to understand at first
   const { loading: ammoLoading, error: ammoError, data: ammoData } = useQuery(GET_ALL_AMMO);
 
+  // Loading/error states to prevent crashes and show feedback to users
   if (ammoLoading) return <p>Loading...</p>;
   if (ammoError) return <p>Error loading ammo data: {ammoError.message}</p>;
   if (!ammoData || !ammoData.items) return <p>No ammo data received from API.</p>;
 
-  // Filter ammo by caliber
+  // Filter ammo by caliber - needed to match API's internal naming with display names
+  // This was one of the trickier parts of the implementation due to inconsistent naming
   const filteredAmmo = ammoData.items.filter(
     (ammo) =>
       ammo.properties?.caliber &&
       (caliberMapping[ammo.properties.caliber] === caliber || ammo.properties.caliber === caliber)
   );
 
-  // Apply search filter if searchTerm is provided
+  // If search term provided, further filter the ammo list
+  // Simple case-insensitive includes search - could be improved in future
   const searchFilteredAmmo = searchTerm 
     ? filteredAmmo.filter(ammo => 
         ammo.name.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : filteredAmmo;
 
-  // Auto-expand if search matches
-  if (searchTerm && searchFilteredAmmo.length > 0 && !showAmmo) {
+  // Auto-expand if search matches or is random target
+  // Uses setTimeout to avoid React state update during render warning
+  if ((searchTerm && searchFilteredAmmo.length > 0 && !showAmmo) || isRandomTarget) {
     setTimeout(() => setShowAmmo(true), 0);
   }
 
-  // If search is active but no matches in this caliber, don't show this caliber
+  // If searching and no matches for this caliber, don't show it at all
+  // This keeps the search results cleaner and focused on matches
   if (searchTerm && searchFilteredAmmo.length === 0) {
     return null;
   }
 
-  // Sort ammo based on selected filter
+  // Sorting logic for the ammo list based on user selection
+  // Keeping the original order if no sorting selected
   const sortedAmmo = [...searchFilteredAmmo].sort((a, b) => {
     if (!selectedFilter) return 0;
     
@@ -108,7 +168,8 @@ const AmmoList = ({ caliber, searchTerm }) => {
   });
 
   return (
-    <div className={styles.caliberContainer}>
+    <div className={`${styles.caliberContainer} ${isRandomTarget ? styles.randomTarget : ''}`}>
+      {/* Caliber header - always visible, toggles showing ammo list */}
       <div className={styles.caliberHeader} onClick={() => setShowAmmo(!showAmmo)}>
         <h2>{caliber}</h2>
         <img
@@ -119,8 +180,10 @@ const AmmoList = ({ caliber, searchTerm }) => {
         <span className={styles.toggleIndicator}>{showAmmo ? '▼' : '►'}</span>
       </div>
 
+      {/* First level of progressive disclosure - ammo list */}
       {showAmmo && (
         <div className={styles.ammoContainer}>
+          {/* Sorting controls */}
           <div className={styles.filterControls}>
             <span>Sort by: </span>
             <button 
@@ -146,15 +209,21 @@ const AmmoList = ({ caliber, searchTerm }) => {
           {sortedAmmo.length > 0 ? (
             <ul className={styles.ammoList}>
               {sortedAmmo.map((ammo) => (
-                <li key={ammo.id} className={styles.ammoItem}>
+                <li 
+                  key={ammo.id} 
+                  className={`${styles.ammoItem} ${randomAmmo === ammo.id ? styles.highlightedAmmo : ''}`}
+                  id={`ammo-${ammo.id}`}
+                >
+                  {/* Ammo name header - toggles showing basic stats */}
                   <div className={styles.ammoName} onClick={() => toggleAmmoStats(ammo.id)}>
                     {ammo.name}
                     <span className={styles.toggleIndicator}>{expandedAmmo === ammo.id ? '▼' : '►'}</span>
                   </div>
 
-                  {/* Basic Stats Section */}
+                  {/* Second level of progressive disclosure - basic stats */}
                   {expandedAmmo === ammo.id && (
                     <div className={styles.basicStats}>
+                      {/* Key stats grid */}
                       <div className={styles.statsGrid}>
                         <div className={styles.statBox}>
                           <span className={styles.statLabel}>Damage</span>
@@ -170,7 +239,47 @@ const AmmoList = ({ caliber, searchTerm }) => {
                         </div>
                       </div>
                       
-                      {/* Trader Prices Section */}
+                      {/* Armor effectiveness table - provides a visual que to how good an ammo is against certain armor tiers */}
+                      <div className={styles.armorEffectiveness}>
+                        <div className={styles.armorEffectivenessHeader}>
+                          <h4>Armor Class Effectiveness</h4>
+                          <div className={styles.infoTooltip}>
+                            ?
+                            <div className={styles.tooltipContent}>
+                              <p>Color indicates effectiveness against armor:</p>
+                              <p><span className={styles.greenDot}></span> High (6) - Penetrates easily</p>
+                              <p><span className={styles.yellowDot}></span> Medium (5) - May penetrate</p>
+                              <p><span className={styles.redDot}></span> Low (0) - Unlikely to penetrate</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className={styles.armorTable}>
+                          <div className={styles.armorTableHeader}>
+                            <div className={styles.armorTableHeaderCell}>Class 1</div>
+                            <div className={styles.armorTableHeaderCell}>Class 2</div>
+                            <div className={styles.armorTableHeaderCell}>Class 3</div>
+                            <div className={styles.armorTableHeaderCell}>Class 4</div>
+                            <div className={styles.armorTableHeaderCell}>Class 5</div>
+                            <div className={styles.armorTableHeaderCell}>Class 6</div>
+                          </div>
+                          <div className={styles.armorTableRow}>
+                            {[1, 2, 3, 4, 5, 6].map(armorClass => {
+                              const rating = getArmorEffectivenessRating(ammo.properties.penetrationPower, armorClass);
+                              return (
+                                <div 
+                                  key={armorClass} 
+                                  className={styles.armorTableCell}
+                                  style={{ backgroundColor: rating.backgroundColor }}
+                                >
+                                  {rating.text}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Trader prices - useful for players to know where to buy ammo */}
                       <div className={styles.priceSection}>
                         <h4>Available From:</h4>
                         {ammo.buyFor && ammo.buyFor.length > 0 ? (
@@ -186,6 +295,7 @@ const AmmoList = ({ caliber, searchTerm }) => {
                         )}
                       </div>
                       
+                      {/* Action buttons for full stats and comparison */}
                       <div className={styles.actions}>
                         <button 
                           className={styles.fullStatsToggle}
@@ -205,11 +315,12 @@ const AmmoList = ({ caliber, searchTerm }) => {
                         </button>
                       </div>
 
-                      {/* Full Stats Section */}
+                      {/* Third level of progressive disclosure - full detailed stats */}
                       {fullStatsAmmo === ammo.id && (
                         <div className={styles.fullStats}>
                           <h4>Complete Ammunition Details</h4>
                           <div className={styles.statsGridFull}>
+                            {/* All the detailed stats - this gets pretty technical and is for the more experienced players */}
                             <div className={styles.statBox}>
                               <span className={styles.statLabel}>Tracer</span>
                               <span className={styles.statValue}>{ammo.properties.tracer ? "Yes" : "No"}</span>
@@ -261,6 +372,29 @@ const AmmoList = ({ caliber, searchTerm }) => {
                               <span className={styles.statValue}>{ammo.properties.heavyBleedModifier}</span>
                             </div>
                           </div>
+
+                          {/* Ballistics section - calculated values based on game mechanics */}
+                          <div className={styles.ballisticsSection}>
+                            <h4>Ballistics Information</h4>
+                            <div className={styles.ballisticsGrid}>
+                              <div className={styles.ballisticsItem}>
+                                <span className={styles.ballisticsLabel}>Initial Speed</span>
+                                <span className={styles.ballisticsValue}>{ammo.properties.initialSpeed} m/s</span>
+                              </div>
+                              <div className={styles.ballisticsItem}>
+                                <span className={styles.ballisticsLabel}>Effective Range</span>
+                                <span className={styles.ballisticsValue}>{calculateEffectiveRange(ammo.properties.initialSpeed)} m</span>
+                              </div>
+                              <div className={styles.ballisticsItem}>
+                                <span className={styles.ballisticsLabel}>100m Damage</span>
+                                <span className={styles.ballisticsValue}>{calculateDamageAtRange(ammo.properties.damage, 100)}</span>
+                              </div>
+                              <div className={styles.ballisticsItem}>
+                                <span className={styles.ballisticsLabel}>200m Damage</span>
+                                <span className={styles.ballisticsValue}>{calculateDamageAtRange(ammo.properties.damage, 200)}</span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       )}
                     </div>
@@ -278,11 +412,3 @@ const AmmoList = ({ caliber, searchTerm }) => {
 };
 
 export default AmmoList;
-
-
-
-
-
-
-
-

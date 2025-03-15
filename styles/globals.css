@@ -72,3 +72,15 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
 }
+
+html {
+  scroll-padding-bottom: 300px;
+}
+
+body {
+  padding-bottom: 300px;
+}
+
+#__next {
+  min-height: calc(100vh - 300px);
+}

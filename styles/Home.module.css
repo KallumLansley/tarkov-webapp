@@ -28,16 +28,22 @@
   border-radius: 3px;
 }
 
-.searchContainer {
-  margin-bottom: 2.5rem;
+.searchControls {
+  display: flex;
   max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto 2.5rem auto;
+  gap: 1rem;
+  align-items: center;
+}
+
+.searchContainer {
+  flex: 1;
 }
 
 .searchInput {
   width: 100%;
-  padding: 1rem 1.5rem;
+  height: 42px; /* Set specific height to match button */
+  padding: 0 1.5rem;
   font-size: 1.1rem;
   border: 2px solid rgba(255, 255, 255, 0.1);
   border-radius: 50px;
@@ -55,6 +61,45 @@
 
 .searchInput::placeholder {
   color: rgba(255, 255, 255, 0.5);
+}
+
+.randomButton {
+  height: 42px; /* Match height with search input */
+  padding: 0 1.25rem;
+  border-radius: 50px;
+  background-color: #2c3e50; /* Match WelcomePanel color */
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+
+.randomButton:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.randomIcon {
+  font-size: 1.2rem;
+}
+
+.randomButtonLoading {
+  background-color: #7f8c8d;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.randomButtonLoading:hover {
+  background-color: #7f8c8d;
+  transform: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 768px) {
