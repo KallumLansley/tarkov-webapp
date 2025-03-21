@@ -1,0 +1,191 @@
+.itemListContainer {
+  color: white;
+}
+
+.filterControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: rgba(30, 30, 40, 0.5);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.searchContainer {
+  flex: 1;
+  max-width: 300px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  background-color: rgba(20, 20, 30, 0.8);
+  color: white;
+  transition: all 0.3s;
+}
+
+.searchInput:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+}
+
+.searchInput::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.sortButtons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sortButtons span {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.sortButton {
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(20, 20, 30, 0.6);
+  color: #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.sortButton:hover {
+  background-color: rgba(52, 152, 219, 0.2);
+  border-color: rgba(52, 152, 219, 0.3);
+}
+
+.activeSort {
+  background-color: rgba(52, 152, 219, 0.3);
+  border-color: #3498db;
+  color: white;
+}
+
+.itemList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.itemEntry {
+  background-color: rgba(30, 30, 40, 0.7);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.itemEntry:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.itemUnavailable {
+  opacity: 0.6;
+}
+
+.itemSelected {
+  border: 1px solid #2ecc71;
+  box-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
+}
+
+.itemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  cursor: pointer;
+  background-color: rgba(25, 25, 35, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.itemBasicInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.itemImage {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  background-color: #111;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.itemName {
+  font-weight: 500;
+  color: white;
+}
+
+.itemControls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.selectButton {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  background-color: #3498db;
+  color: white;
+}
+
+.selectButton:hover {
+  background-color: #2980b9;
+}
+
+.selectedButton {
+  background-color: #2ecc71;
+}
+
+.selectedButton:hover {
+  background-color: #27ae60;
+}
+
+.toggleIndicator {
+  color: #aaa;
+  transition: transform 0.3s;
+}
+
+.itemHeader:hover .toggleIndicator {
+  transform: translateX(3px);
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .filterControls {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .searchContainer {
+    width: 100%;
+    max-width: none;
+  }
+  
+  .sortButtons {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

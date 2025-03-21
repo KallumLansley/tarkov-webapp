@@ -56,7 +56,7 @@ const AmmoComparison = () => {
             className={styles.minimizeButton}
             onClick={() => setIsMinimized(!isMinimized)}
           >
-            {isMinimized ? '▲ Expand' : '▼ Minimize'}
+            {isMinimized ? '▲ Expand' : '▼ Minimise'}
           </button>
           <h3>Ammo Comparison ({comparisonList.length}/4)</h3>
         </div>

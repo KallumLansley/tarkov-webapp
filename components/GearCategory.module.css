@@ -1,0 +1,107 @@
+.categoryContainer {
+  margin-bottom: 1.5rem;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: rgba(30, 30, 30, 0.7);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s;
+}
+
+.categoryContainer:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+.categoryHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(90deg, #2c3e50, #1a1a2e);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.categoryHeader:hover {
+  background: linear-gradient(90deg, #34495e, #232336);
+}
+
+.categoryTitle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.categoryIcon {
+  font-size: 1.5rem;
+}
+
+.categoryTitle h2 {
+  color: white;
+  margin: 0;
+  font-size: 1.3rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.categoryInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.selectedItemName {
+  padding: 0.25rem 0.75rem;
+  background-color: rgba(46, 204, 113, 0.2);
+  color: #2ecc71;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.emptySelection {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.toggleIndicator {
+  color: #ddd;
+  font-size: 1.2rem;
+  transition: transform 0.3s;
+}
+
+.categoryHeader:hover .toggleIndicator {
+  transform: translateX(3px);
+}
+
+.categoryContent {
+  padding: 1.5rem;
+  background-color: rgba(40, 40, 40, 0.7);
+}
+
+.categoryDescription {
+  margin-bottom: 1.5rem;
+  color: #ddd;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  border-left: 3px solid #3498db;
+  padding-left: 1rem;
+  background-color: rgba(52, 152, 219, 0.1);
+  padding: 0.75rem 1rem;
+  border-radius: 0 4px 4px 0;
+}
+
+@media (max-width: 768px) {
+  .categoryHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .categoryInfo {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

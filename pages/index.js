@@ -1,4 +1,4 @@
-//index.js
+// pages/index.js
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import AmmoList from "../components/AmmoList";
@@ -6,6 +6,7 @@ import AmmoComparison from "../components/AmmoComparison";
 import CaliberGroup from "../components/CaliberGroup";
 import WelcomePanel from "../components/WelcomePanel";
 import Footer from "../components/Footer";
+import Link from "next/link";
 import { GET_ALL_AMMO } from "../services/api/queries";
 import styles from "../styles/Home.module.css";
 
@@ -69,14 +70,13 @@ export default function Home() {
   const [randomAmmoId, setRandomAmmoId] = useState(null);
   const [isRandomLoading, setIsRandomLoading] = useState(false);
   
-  // Fetch all ammo data using Apollo Client (spent ages getting this to work properly, was not familiar with using Apollo)
+  // Fetch all ammo data using Apollo Client
   const { data: ammoData, loading: ammoLoading } = useQuery(GET_ALL_AMMO);
   
   // Simple check for whether search is active - helps control display
   const isSearchActive = searchTerm.trim().length > 0;
 
   // Helper function to find which group a caliber belongs to
-  // Spent some time optimising this - it's O(n) but the lists are small enough to not matter
   const findCaliberGroup = (caliber) => {
     for (let i = 0; i < caliberGroups.length; i++) {
       if (caliberGroups[i].calibers.includes(caliber)) {
@@ -86,8 +86,7 @@ export default function Home() {
     return null;
   };
 
-  // This random ammo feature was trickier than I expected
-  // Had to add a lot of error checking to make it stable
+  // This random ammo feature helps users discover new ammo types
   const loadRandomAmmo = () => {
     // Guard clause to prevent multiple clicks or running when data isn't ready
     if (isRandomLoading || ammoLoading || !ammoData || !ammoData.items || ammoData.items.length === 0) return;
@@ -116,12 +115,10 @@ export default function Home() {
       const groupIndex = findCaliberGroup(caliberDisplayName);
       
       // Reset existing selections first to avoid UI conflicts
-      // This fixed a bug where selections would stack and couldn't be closed
       setRandomCaliber(null);
       setRandomAmmoId(null);
       
       // Had to use these timeouts to ensure state updates complete
-      // Learned this the hard way after hours of debugging UI glitches
       setTimeout(() => {
         // Update state to reflect new random selection
         setExpandedGroup(groupIndex);
@@ -134,9 +131,6 @@ export default function Home() {
           if (element) {
             // Smooth scroll to bring the element into view
             element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
-            // The ammo will now be auto-expanded in the AmmoList component
-            // No longer need to click it programmatically here
           }
           setIsRandomLoading(false);
         }, 500);
@@ -148,11 +142,9 @@ export default function Home() {
   };
 
   // Handle toggling of caliber groups (expand/collapse)
-  // Had to add special handling for random selection case
   const handleToggleGroup = (index) => {
     // If this is the group with our random selection, need to clear random state first
     if (randomCaliber && findCaliberGroup(randomCaliber) === index) {
-      // This allows users to close a group even if it contains the random selection
       setRandomCaliber(null);
       setRandomAmmoId(null);
     }
@@ -163,9 +155,16 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <WelcomePanel />
+      <div className={styles.navigation}>
+        <Link href="/loadout">
+          <span className={styles.navLink}>Go to Loadout Builder →</span>
+        </Link>
+      </div>
       
       <h1 className={styles.title}>Escape from Tarkov Ammo Data</h1>
+      
+      {/* Moved WelcomePanel below the title to match loadout page layout */}
+      <WelcomePanel />
       
       <div className={styles.searchControls}>
         <div className={styles.searchContainer}>
@@ -192,8 +191,6 @@ export default function Home() {
         This conditional rendering switches between two display modes:
         1. Search mode: flat list of all calibers matching search
         2. Normal mode: grouped calibers in collapsible sections
-        
-        Implements progressive disclosure by not showing everything at once
       */}
       {isSearchActive ? (
         // Search mode - flat list for easier scanning of results

@@ -1,0 +1,175 @@
+.profileContainer {
+  margin-bottom: 2rem;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: rgba(30, 30, 30, 0.7);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s;
+}
+
+.profileContainer:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+.profileHeader {
+  display: flex;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(90deg, #2c3e50, #1a1a2e);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.profileHeader:hover {
+  background: linear-gradient(90deg, #34495e, #232336);
+}
+
+.profileHeader h2 {
+  color: white;
+  margin: 0;
+  font-size: 1.3rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  flex: 1;
+}
+
+.level {
+  padding: 0.25rem 0.75rem;
+  background-color: rgba(52, 152, 219, 0.2);
+  color: #3498db;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  margin-right: 1rem;
+}
+
+.toggleIndicator {
+  color: #ddd;
+  font-size: 1.2rem;
+  transition: transform 0.3s;
+}
+
+.profileHeader:hover .toggleIndicator {
+  transform: translateX(3px);
+}
+
+.profileDetails {
+  padding: 1.5rem;
+  background-color: rgba(40, 40, 40, 0.7);
+}
+
+.levelSelector {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.levelSelector label {
+  color: #ddd;
+  font-size: 0.95rem;
+}
+
+.levelSelector input {
+  width: 100px;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(20, 20, 30, 0.8);
+  color: white;
+}
+
+.levelSelector input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.4);
+}
+
+.tradersContainer h3 {
+  color: white;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.traderGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.traderItem {
+  background-color: rgba(25, 25, 35, 0.7);
+  border-radius: 8px;
+  padding: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.traderName {
+  display: block;
+  color: #ddd;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.traderLevels {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.levelButton {
+  flex: 1;
+  padding: 0.4rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(20, 20, 30, 0.6);
+  color: #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.levelButton:hover {
+  background-color: rgba(52, 152, 219, 0.2);
+  border-color: rgba(52, 152, 219, 0.3);
+}
+
+.activeLevel {
+  background-color: rgba(52, 152, 219, 0.3);
+  border-color: #3498db;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .profileHeader {
+    flex-wrap: wrap;
+  }
+  
+  .level {
+    margin-top: 0.5rem;
+  }
+  
+  .levelSelector {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .traderGrid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+
+.profileDescription {
+  color: #ddd;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  border-left: 3px solid #3498db;
+  padding-left: 1rem;
+  background-color: rgba(52, 152, 219, 0.1);
+  padding: 0.75rem 1rem;
+  border-radius: 0 4px 4px 0;
+}

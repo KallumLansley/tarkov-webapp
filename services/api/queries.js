@@ -38,6 +38,7 @@ export const GET_ALL_AMMO = gql`
   }
 `;
 
+// test query code, a seperate page was made for testing 
 export const GET_ALL_ITEMS = gql`
   query GetAllItems {
     items {

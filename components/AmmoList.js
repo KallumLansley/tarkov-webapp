@@ -246,9 +246,9 @@ const AmmoList = ({ caliber, searchTerm, isRandomTarget, randomAmmo }) => {
                           <div className={styles.infoTooltip}>
                             ?
                             <div className={styles.tooltipContent}>
-                              <p>Color indicates effectiveness against armor:</p>
+                              <p>Colour indicates effectiveness against armor:</p>
                               <p><span className={styles.greenDot}></span> High (6) - Penetrates easily</p>
-                              <p><span className={styles.yellowDot}></span> Medium (5) - May penetrate</p>
+                              <p><span className={styles.yellowDot}></span> Medium (5) - Likely to penetrate</p>
                               <p><span className={styles.redDot}></span> Low (0) - Unlikely to penetrate</p>
                             </div>
                           </div>

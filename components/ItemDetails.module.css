@@ -1,0 +1,177 @@
+.detailsContainer {
+  background-color: rgba(25, 25, 35, 0.8);
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-top: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.baseStats {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.specificDetails h4, .availabilityInfo h4 {
+  color: #3498db;
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(52, 152, 219, 0.3);
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(30, 30, 40, 0.5);
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.2s;
+}
+
+.statItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.statLabel {
+  color: #aaa;
+  font-size: 0.85rem;
+  margin-bottom: 0.4rem;
+}
+
+.statValue {
+  color: #fff;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.availabilityInfo {
+  margin-top: 1.5rem;
+}
+
+.traderList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.traderItem {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: rgba(30, 30, 40, 0.5);
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.traderItem:last-child {
+  margin-bottom: 0;
+}
+
+.traderName {
+  flex: 1;
+  font-weight: 500;
+  color: #ddd;
+}
+
+.traderPrice {
+  font-weight: 600;
+  color: #3498db;
+  margin: 0 1rem;
+}
+
+.traderReq {
+  color: #e74c3c;
+  font-size: 0.9rem;
+}
+
+.barterTitle {
+  color: #f39c12;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(243, 156, 18, 0.3);
+}
+
+.barterItem {
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: rgba(34, 34, 45, 0.7);
+  margin-bottom: 0.75rem;
+}
+
+.barterHeader {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.barterDetails {
+  width: 100%;
+}
+
+.barterLabel {
+  color: #aaa;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.barterRequirements {
+  list-style: none;
+  padding-left: 1rem;
+  margin: 0.5rem 0;
+}
+
+.barterRequirement {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.3rem;
+}
+
+.barterItemCount {
+  color: #f39c12;
+  font-weight: 600;
+  margin-right: 0.5rem;
+  min-width: 2rem;
+}
+
+.barterItemName {
+  color: #ddd;
+}
+
+.noOptions {
+  color: #aaa;
+  font-style: italic;
+  padding: 1rem;
+  background-color: rgba(30, 30, 40, 0.5);
+  border-radius: 4px;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .baseStats {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .statGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
