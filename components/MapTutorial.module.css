@@ -1,0 +1,94 @@
+.tutorialOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(3px);
+  pointer-events: auto;
+}
+
+.tutorialContent {
+  background-color: rgba(30, 30, 40, 0.95);
+  border-radius: 10px;
+  padding: 1.5rem;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(52, 152, 219, 0.5);
+  color: white;
+  animation: fadeIn 0.3s ease-out;
+  pointer-events: auto;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.tutorialHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tutorialHeader h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #3498db;
+}
+
+.skipButton {
+  background: none;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.skipButton:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.tutorialContent p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.instructionBox {
+  display: flex;
+  align-items: center;
+  background-color: rgba(52, 152, 219, 0.2);
+  border: 1px solid rgba(52, 152, 219, 0.5);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.lightbulbIcon {
+  font-size: 2rem;
+  margin-right: 1rem;
+  color: #f1c40f; /* Bright yellow color for the lightbulb */
+  text-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+}
+.instructionText {
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.tutorialNote {
+  font-size: 0.9rem;
+  color: #bbb;
+  font-style: italic;
+}

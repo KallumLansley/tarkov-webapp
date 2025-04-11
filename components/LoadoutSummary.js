@@ -23,7 +23,7 @@ const LoadoutSummary = () => {
 	const categoryLabels = {
 	  weapon: "Primary Weapon",
 	  helmet: "Helmet",
-	  headphones: "Headphones", // Add this line
+	  headphones: "Headphones",
 	  armor: "Body Armor",
 	  rig: "Tactical Rig",
 	  backpack: "Backpack"

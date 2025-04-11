@@ -1,0 +1,82 @@
+/* components/TutorialStyles.module.css */
+.tutorialOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(3px);
+}
+
+.tutorialContent {
+  background-color: rgba(30, 30, 40, 0.95);
+  border-radius: 10px;
+  padding: 1.5rem;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(52, 152, 219, 0.5);
+  color: white;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.tutorialHeader {
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tutorialHeader h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #3498db;
+  text-align: center;
+}
+
+.tutorialBody {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.tutorialBody p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.tutorialBody ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.tutorialBody li {
+  margin-bottom: 0.5rem;
+}
+
+.understandButton {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.understandButton:hover {
+  background-color: #2980b9;
+}

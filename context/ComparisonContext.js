@@ -46,7 +46,7 @@ export function ComparisonProvider({ children }) {
 }
 
 // Custom hook for easier access to the comparison context
-// Found this pattern online - it's much cleaner than importing useContext everywhere
+// Found this pattern online, it's much cleaner than importing useContext everywhere
 export function useComparison() {
   return useContext(ComparisonContext);
 }

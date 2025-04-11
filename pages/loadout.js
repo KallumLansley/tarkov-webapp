@@ -1,10 +1,12 @@
 // pages/loadout.js
+import { useState, useEffect } from "react";
 import { useLoadout } from "../context/LoadoutContext";
 import UserProfile from "../components/UserProfile";
 import GearCategory from "../components/GearCategory";
 import LoadoutSummary from "../components/LoadoutSummary";
 import LoadoutGuide from "../components/LoadoutGuide";
 import LoadoutFooter from "../components/LoadoutFooter";
+import LoadoutTutorial from "../components/LoadoutTutorial";
 import Link from "next/link";
 import {
   GET_WEAPONS,
@@ -22,12 +24,30 @@ export default function Loadout() {
   // Get the current loadout and the function to update it from our context
   const { selectedLoadout, updateLoadoutItem } = useLoadout();
   
+  // Tutorial state
+  const [isTutorialActive, setIsTutorialActive] = useState(false);
+
+  // Check if tutorial has been completed before
+  useEffect(() => {
+    // Only show tutorial if it hasn't been completed before
+    const tutorialCompleted = localStorage.getItem('loadoutTutorialCompleted') === 'true';
+    setIsTutorialActive(!tutorialCompleted);
+  }, []);
+
+  // Handler for completing the tutorial
+  const handleTutorialComplete = () => {
+    setIsTutorialActive(false);
+  };
+  
   return (
-    <div className={styles.container}>
-      {/* Link to go back to the ammo guide page */}
+    <div className={`${styles.container} ${isTutorialActive ? styles.pageDimmed : ''}`}>
+      {/* Tutorial overlay */}
+      {isTutorialActive && <LoadoutTutorial onComplete={handleTutorialComplete} />}
+      
+      {/* Link to go back to the home page */}
       <div className={styles.navigation}>
         <Link href="/">
-          <span className={styles.navLink}>← Back to Ammo Guide</span>
+          <span className={styles.navLink}>← Back to Home</span>
         </Link>
       </div>
       

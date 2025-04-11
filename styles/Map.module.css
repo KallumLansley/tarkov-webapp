@@ -1,0 +1,426 @@
+/* styles/Map.module.css */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: white;
+  min-height: 100vh;
+}
+
+.title {
+  margin-bottom: 2rem;
+  text-align: center;
+  color: white;
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.title:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+  border-radius: 3px;
+}
+
+.navigation {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  background-color: rgba(30, 30, 40, 0.5);
+  border: 1px solid rgba(52, 152, 219, 0.2);
+  color: #3498db;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.navLink:hover {
+  background-color: rgba(52, 152, 219, 0.2);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Guide Panel Styles */
+.guidePanel {
+  background-color: rgba(24, 53, 93, 0.9);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s;
+}
+
+.collapsed {
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.guideHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.guideHeader h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.closeButton:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.guideContent {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.guideContent p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.guideContent ul {
+  padding-left: 1.5rem;
+  margin-bottom: 0;
+}
+
+.guideContent li {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.inlineIcon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.expandButton {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.expandButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Controls Styles */
+.controls {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.controlButton {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  background-color: rgba(30, 30, 40, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.controlButton:hover {
+  background-color: rgba(40, 40, 60, 0.8);
+  transform: translateY(-2px);
+}
+
+.controlButton.active {
+  background-color: rgba(52, 152, 219, 0.3);
+  border-color: #3498db;
+  box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+}
+
+.controlIcon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+/* Map Container Styles */
+.mapContainer {
+  position: relative;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  margin-bottom: 3rem;
+}
+
+.mapImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.mapIcon {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  transition: transform 0.2s ease;
+  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.5));
+  cursor: pointer;
+}
+
+/* Hover scale */
+.mapIcon:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+  z-index: 11;
+}
+
+/* Tooltip on hover using data-label */
+.mapIcon::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.mapIcon:hover::after {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .controls {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .controlButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .mapIcon {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+/* Icons for the control buttons */
+.hazardIcon, .lootIcon, .questIcon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+.hazardIcon {
+  background-color: rgba(255, 0, 0, 0.7);
+  border: 1px solid rgba(255, 0, 0, 0.9);
+}
+
+.lootIcon {
+  background-color: rgba(0, 255, 0, 0.7);
+  border: 1px solid rgba(0, 255, 0, 0.9);
+}
+
+.questIcon {
+  background-color: rgba(255, 255, 0, 0.7);
+  border: 1px solid rgba(255, 255, 0, 0.9);
+}
+
+/* Small color squares for the guide panel */
+.inlineHazardIcon, .inlineLootIcon, .inlineQuestIcon {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  margin-right: 5px;
+}
+
+.inlineHazardIcon {
+  background-color: rgba(255, 0, 0, 0.7);
+  border: 1px solid rgba(255, 0, 0, 0.9);
+}
+
+.inlineLootIcon {
+  background-color: rgba(0, 255, 0, 0.7);
+  border: 1px solid rgba(0, 255, 0, 0.9);
+}
+
+.inlineQuestIcon {
+  background-color: rgba(255, 255, 0, 0.7);
+  border: 1px solid rgba(255, 255, 0, 0.9);
+}
+
+/* Area highlights on the map */
+.hazardArea, .lootArea, .questArea {
+  position: absolute;
+  border-radius: 4px;
+  transition: opacity 0.3s;
+  z-index: 5;
+  cursor: pointer;
+}
+
+.hazardArea {
+  background-color: rgba(255, 0, 0, 0.3);
+  border: 2px solid rgba(255, 0, 0, 0.7);
+}
+
+.lootArea {
+  background-color: rgba(0, 255, 0, 0.3);
+  border: 2px solid rgba(0, 255, 0, 0.7);
+}
+
+.questArea {
+  background-color: rgba(255, 255, 0, 0.3);
+  border: 2px solid rgba(255, 255, 0, 0.7);
+}
+
+/* Hover effects for areas */
+.hazardArea:hover, .lootArea:hover, .questArea:hover {
+  opacity: 0.8;
+}
+
+/* Tooltip for areas using data-label */
+.hazardArea::after, .lootArea::after, .questArea::after {
+  content: attr(data-label);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+  font-weight: bold;
+}
+
+.hazardArea:hover::after, .lootArea:hover::after, .questArea:hover::after {
+  opacity: 1;
+}
+
+/* Style for when the tutorial is active */
+.pageDimmed {
+  position: relative;
+}
+
+.pageDimmed::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Make the map less prominent during tutorial */
+.dimmedMap {
+  opacity: 0.7;
+  filter: blur(2px);
+  transition: opacity 0.3s, filter 0.3s;
+}
+
+/* Make controls stand out when tutorial is active */
+.controlButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Ensure buttons remain clickable during tutorial */
+.controls {
+  position: relative;
+  z-index: 10;
+}
+
+/* Highlight effect for controls during tutorial */
+.controlsHighlight {
+  position: relative;
+  z-index: 10 !important;
+  box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.8), 0 0 20px rgba(52, 152, 219, 0.6) !important;
+  animation: controlPulse 1.5s infinite;
+}
+
+@keyframes controlPulse {
+  0% { box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.8), 0 0 20px rgba(52, 152, 219, 0.6); }
+  50% { box-shadow: 0 0 0 6px rgba(52, 152, 219, 0.9), 0 0 30px rgba(52, 152, 219, 0.7); }
+  100% { box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.8), 0 0 20px rgba(52, 152, 219, 0.6); }
+}
+
+.controlsActive {
+  position: relative;
+  z-index: 1001; /* Higher than the tutorial overlay to ensure clickability */
+}
