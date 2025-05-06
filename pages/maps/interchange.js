@@ -187,7 +187,7 @@ const InterchangeMap = () => {
           className={styles.mapImage}
         />
 
-        {/* Extract Points - Starting with placeholder positions */}
+        {/* Extract Points */}
         {showExtracts && (
           <>
             <img src="/images/extract-icon.png" className={styles.mapIcon} data-label="Emercom Checkpoint" style={{ bottom: "15%", right: "0%" }} />
@@ -197,7 +197,7 @@ const InterchangeMap = () => {
           </>
         )}
 
-        {/* Player Spawn Points - Starting with placeholder positions */}
+        {/* Player Spawn Points */}
         {showPlayerSpawns && (
           <>
             <img src="/images/player-spawn-icon.png" className={styles.mapIcon} data-label="PMC Spawn" style={{ top: "15%", left: "11%" }} />
@@ -209,7 +209,7 @@ const InterchangeMap = () => {
           </>
         )}
 
-        {/* Scav Spawn Points - Starting with placeholder positions */}
+        {/* Scav Spawn Points */}
         {showScavSpawns && (
           <>
             <img src="/images/scav-spawn-icon.png" className={styles.mapIcon} data-label="Scav Spawn" style={{ top: "25%", left: "43%" }} />
@@ -220,14 +220,14 @@ const InterchangeMap = () => {
           </>
         )}
         
-        {/* Hazard Zones - Starting with placeholder positions */}
+        {/* Hazard Zones */}
         {showHazardZones && (
           <>
             <div className={styles.hazardArea} data-label="High Traffic" style={{ top: "2%", left: "28%", width: "6%", height: "5%" }}></div>
           </>
         )}
         
-        {/* Loot Areas - Starting with placeholder positions */}
+        {/* Loot Areas */}
         {showLootAreas && (
           <>
             <div className={styles.lootArea} data-label="IDEA Loot" style={{ top: "19%", right: "26%", width: "5%", height: "14%" }}></div>
@@ -237,7 +237,7 @@ const InterchangeMap = () => {
           </>
         )}
         
-        {/* Quest Areas - Starting with placeholder positions */}
+        {/* Quest Areas */}
         {showQuestAreas && (
           <>
             <div className={styles.questArea} data-label="Quest Items" style={{ top: "18.5%", right: "35%", width: "6%", height: "2%" }}></div>
