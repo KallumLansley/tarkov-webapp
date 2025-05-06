@@ -1,40 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Tarkov WebApp
 
-## Getting Started
+This repository contains the source code for a final-year Computing dissertation project developed at Solent University. The web application demonstrates how user experience (UX) principles can improve accessibility and usability when navigating complex datasets.
 
-First, run the development server:
+The application uses in-game data from *Escape From Tarkov* (Battlestate Games, 2015) as a proof-of-concept environment due to the game's extensive and unstructured data systems.
 
-```bash
+## Project Overview
+
+The aim of the project is to explore how UX design principles such as progressive disclosure, interactive filtering, and onboarding tutorials can reduce cognitive overload and improve navigation efficiency for users.
+
+Key features of the application include:
+
+- A dynamically filtered loadout builder
+- A progressively disclosed ammunition statistics page
+- An interactive map interface with contextual tooltips and optional guidance
+- One-time onboarding tutorials to support beginner users
+
+## Technologies Used
+
+- Next.js (React framework)
+- GraphQL with Apollo Client
+- Tarkov.dev API
+- Leaflet for mapping
+- CSS Modules
+
+## Installation and Usage
+
+To run the application locally:
+
+### 1. Clone the repository
+git clone https://github.com/KallumLansley/tarkov-webapp.git
+cd tarkov-webapp
+
+2. Install dependencies
+
+npm install
+
+3. Start the development server
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
